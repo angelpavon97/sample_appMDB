@@ -1,7 +1,9 @@
 class UsersController < ApplicationController
   
   def show
-    @user = User.find_by(params[:_id])
+    @user = User.find_by(params[:_id]) #Finds the first id because params[:_id] = 0
+    #@user = User.find_by(_id: params[:_id].to_s)
+    #@user = User.find_by(id: "5c6a8b792b721d2bd0005c22")
   end
   
   def new
@@ -12,6 +14,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       log_in @user
+      remember @user
       flash[:success] = "Welcome to the Sample App!"
       redirect_to @user
     else
