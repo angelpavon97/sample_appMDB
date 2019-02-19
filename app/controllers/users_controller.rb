@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   
   def show
-    @user = User.find_by(params[:_id]) #Finds the first id because params[:_id] = 0
+    @user = User.find(params[:id]) 
     #@user = User.find_by(_id: params[:_id].to_s)
     #@user = User.find_by(id: "5c6a8b792b721d2bd0005c22")
   end
