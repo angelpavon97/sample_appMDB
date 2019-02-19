@@ -6,6 +6,7 @@ class User
   field :email, type: String
   field :password_digest, type: String
   field :remember_digest, type: String
+  field :admin, type: Boolean, default: false
   index({ email: 1 }, { unique: true, name: "email_index" })
   
   attr_accessor :remember_token
@@ -16,7 +17,7 @@ class User
                                     format: { with: VALID_EMAIL_REGEX },
                                     uniqueness: { case_sensitive: false }
   has_secure_password
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
   
   # Returns the hash digest of the given string.
   def User.digest(string)
