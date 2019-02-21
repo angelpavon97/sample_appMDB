@@ -4,7 +4,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
 
   def setup
     if User.find_by(email: "michael@example.com") == nil
-      @user = User.new(name: "Michael Example", email: "michael@example.com", password: 'password')
+      @user = User.new(name: "Michael Example", email: "michael@example.com", password: 'password', activated: true, activated_at: Time.zone.now)
       @user.save
     end
     @michael = User.find_by(email: "michael@example.com")

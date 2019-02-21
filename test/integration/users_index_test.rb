@@ -6,13 +6,13 @@ class UsersIndexTest < ActionDispatch::IntegrationTest
     if User.find_by(email: "michael@example.com") != nil
       @user = User.find_by(email: "michael@example.com")
       @user.destroy
-      @user = User.new(name: "Michael Example", email: "michael@example.com", password: 'password', admin: true)
+      @user = User.new(name: "Michael Example", email: "michael@example.com", password: 'password', admin: true, activated: true, activated_at: Time.zone.now)
       @user.save
     end
     @michael = User.find_by(email: "michael@example.com")
     
     if User.find_by(email: "duchess@example.gov") == nil
-      @archer = User.new(name: "Sterling Archer", email: "duchess@example.gov", password: 'password')
+      @archer = User.new(name: "Sterling Archer", email: "duchess@example.gov", password: 'password', activated: true, activated_at: Time.zone.now)
       @archer.save
     end
     @archer = User.find_by(email: "duchess@example.gov")
