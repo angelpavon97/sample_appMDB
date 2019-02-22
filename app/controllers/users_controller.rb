@@ -8,7 +8,8 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id]) 
+    @user = User.find(params[:id])
+    @microposts = @user.microposts.paginate(:page => params[:page])
     #@user = User.find_by(_id: params[:_id].to_s)
     #@user = User.find_by(id: "5c6a8b792b721d2bd0005c22")
   end
@@ -56,15 +57,6 @@ class UsersController < ApplicationController
     end
     
     # Before filters
-
-    # Confirms a logged-in user.
-    def logged_in_user
-      unless logged_in?
-        store_location
-        flash[:danger] = "Please log in."
-        redirect_to login_url
-      end
-    end
     
     # Confirms the correct user.
     def correct_user

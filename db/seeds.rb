@@ -6,6 +6,7 @@ User.create!(name:  "Example User",
              email: "example@railstutorial.org",
              password:              "foobar",
              password_confirmation: "foobar",
+             admin: true,
              activated: true,
              activated_at: Time.zone.now)
 
@@ -20,4 +21,12 @@ User.create!(name:  "Example User",
                activated: true,
                activated_at: Time.zone.now)
 
+end
+
+users = User.find_by(email: "example@railstutorial.org"), User.find_by(email: "example-1@railstutorial.org"),
+        User.find_by(email: "example-2@railstutorial.org"), User.find_by(email: "example-3@railstutorial.org"),
+        User.find_by(email: "example-4@railstutorial.org"), User.find_by(email: "example-5@railstutorial.org")
+50.times do
+  content = Faker::Lorem.sentence(5)
+  users.each { |user| user.microposts.create!(content: content) }
 end
