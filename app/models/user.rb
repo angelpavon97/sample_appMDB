@@ -10,9 +10,11 @@ class User
   field :activation_digest, type: String
   field :activated, type: Boolean, default: false
   field :activated_at, type: DateTime
+  field :reset_digest, type: String
+  field :reset_sent_at, type: DateTime
   index({ email: 1 }, { unique: true, name: "email_index" })
   
-  attr_accessor :remember_token, :activation_token
+  attr_accessor :remember_token, :activation_token, :reset_token
   before_save   :downcase_email
   before_create :create_activation_digest
   validates :name,  presence: true, length: { maximum: 50 }
@@ -62,6 +64,29 @@ class User
   # Sends activation email.
   def send_activation_email
     UserMailer.account_activation(self).deliver_now
+  end
+  
+  # Sets the password reset attributes.
+  def create_reset_digest
+    self.reset_token = User.new_token
+    update_attribute(:reset_digest,  User.digest(reset_token))
+    update_attribute(:reset_sent_at, Time.zone.now)
+  end
+  
+  # Sends password reset email.
+  def send_password_reset_email
+    UserMailer.password_reset(self).deliver_now
+  end
+  
+  # Returns true if a password reset has expired.
+  def password_reset_expired?
+    reset_sent_at < 2.hours.ago
+  end
+  
+  #Reads the field value and inverts it
+  def toggle!(field)
+    send "#{field}=", !self.send("#{field}?")
+    save :validation => false
   end
   
   private
