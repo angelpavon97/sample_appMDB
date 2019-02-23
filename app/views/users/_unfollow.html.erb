@@ -1,0 +1,7 @@
+<%= form_for (@current_user) do |f| %>
+  <%= @current_user.unfollow(current_user.following.find(@user.id))%> 
+  <%= f.submit "Unfollow", class: "btn" %>
+<% end %>
+
+
+

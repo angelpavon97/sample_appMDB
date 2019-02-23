@@ -1,0 +1,5 @@
+<%= form_for(current_user.following.build) do |f| %>
+  <div><%= hidden_field_tag :followed_id, @user.id %></div>
+  <%= @current_user.follow(User.find(@user.id))%>
+  <%= f.submit "Follow", class: "btn btn-primary" %>
+<% end %>

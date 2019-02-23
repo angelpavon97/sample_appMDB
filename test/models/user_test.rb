@@ -5,6 +5,18 @@ class UserTest < ActiveSupport::TestCase
   def setup 
     @user = User.new(name: "Example User", email: "user@example.com",
                       password: "foobar", password_confirmation: "foobar")
+                      
+    if User.find_by(email: "michael@example.com") == nil
+      @user = User.new(name: "Michael Example", email: "michael@example.com", password: 'password', activated: true, activated_at: Time.zone.now)
+      @user.save
+    end
+    @michael = User.find_by(email: "michael@example.com")
+    
+    if User.find_by(email: "duchess@example.gov") == nil
+      @archer = User.new(name: "Sterling Archer", email: "duchess@example.gov", password: 'password', activated: true, activated_at: Time.zone.now)
+      @archer.save
+    end
+    @archer = User.find_by(email: "duchess@example.gov")
   end
 
   test "should be valid" do
@@ -87,6 +99,17 @@ class UserTest < ActiveSupport::TestCase
     assert_difference 'Micropost.count', -1 do
       @user.destroy
     end
+  end
+  
+  test "should follow and unfollow a user" do
+    michael = @michael
+    archer  = @archer
+    assert_not michael.following?(archer)
+    michael.follow(archer)
+    assert michael.following?(archer)
+    assert archer.followers.include?(michael)
+    michael.unfollow(archer)
+    assert_not michael.following?(archer)
   end
 
 end

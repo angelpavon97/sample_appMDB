@@ -3,6 +3,16 @@ class User
   include ActiveModel::SecurePassword
   
   has_many :microposts, dependent: :destroy
+  has_many :active_relationships, class_name:  "Relationship",
+                                  foreign_key: "follower_id",
+                                  dependent:   :destroy
+                                  
+  has_many :passive_relationships, class_name:  "Relationship",
+                                   foreign_key: "followed_id",
+                                   dependent:   :destroy
+                                   
+  has_and_belongs_to_many :following, class_name: "User", foreign_key: "following_id"
+  has_and_belongs_to_many :followers, class_name: "User", foreign_key: "followers_id"
   
   field :name, type: String
   field :email, type: String
@@ -94,7 +104,42 @@ class User
   # Defines a proto-feed.
   # See "Following users" for the full implementation.
   def feed
-    Micropost.where(user_id: id) #equivalent to: microposts
+    #Micropost.where(user_id: id) #equivalent to: microposts
+    #Micropost.where(user_id: following.first.id)
+    
+    #Micropost.or( { user_id: id}, {user_id: following.first.id} )
+    
+    following_ids = "{user_id: id}"
+    self.following.each do |user|
+      following_ids = following_ids + ",{user_id: #{user.id}}"
+    end
+    
+    Micropost.or(puts(following_ids))
+  end
+  
+  # Follows a user.
+  def follow(other_user)
+    following << other_user
+    other_user.add_follower(self)
+  end
+
+  def add_follower(other_user)
+    followers << other_user
+  end
+  
+  # Unfollows a user.
+  def unfollow(other_user)
+    following.delete(other_user)
+    other_user.delete_follower(self)
+  end
+  
+  def delete_follower(other_user)
+    followers.delete(other_user)
+  end
+
+  # Returns true if the current user is following the other user.
+  def following?(other_user)
+    following.include?(other_user)
   end
   
   private

@@ -1,6 +1,6 @@
-100.times do |n|
-  User.last().destroy()
-end
+#100.times do |n|
+#  User.last().destroy()
+#end
 
 User.create!(name:  "Example User",
              email: "example@railstutorial.org",
@@ -30,3 +30,12 @@ users = User.find_by(email: "example@railstutorial.org"), User.find_by(email: "e
   content = Faker::Lorem.sentence(5)
   users.each { |user| user.microposts.create!(content: content) }
 end
+
+user = User.first()
+User.each do |x|
+  if x != user
+    user.follow(x)
+    x.follow(user)
+  end
+end
+
