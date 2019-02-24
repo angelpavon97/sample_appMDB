@@ -1,1 +1,2 @@
-<%= button_to "Unollow", follow_path, :method=> "delete", remote: true  %>
+<div><%= hidden_field_tag :followed_id, @user.id %></div>
+<%= button_to "Unfollow", follow_path, :method=> current_user.unfollow(@user), remote: true  %>
