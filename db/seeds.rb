@@ -1,6 +1,6 @@
-#100.times do |n|
-#  User.last().destroy()
-#end
+User.count.times do |n|
+  User.last().destroy()
+end
 
 User.create!(name:  "Example User",
              email: "example@railstutorial.org",

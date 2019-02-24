@@ -3,11 +3,11 @@ require 'test_helper'
 class UsersLoginTest < ActionDispatch::IntegrationTest
 
   def setup
-    if User.find_by(email: "michael@example.com") == nil
-      @user = User.new(name: "Michael Example", email: "michael@example.com", password: 'password', activated: true, activated_at: Time.zone.now)
+    if User.find_by(email: "michael3@example.com") == nil
+      @user = User.new(name: "Michael Example3", email: "michael3@example.com", password: 'password', activated: true, activated_at: Time.zone.now)
       @user.save
     end
-    @michael = User.find_by(email: "michael@example.com")
+    @michael = User.find_by(email: "michael3@example.com")
   end
 
   test "login with invalid information" do

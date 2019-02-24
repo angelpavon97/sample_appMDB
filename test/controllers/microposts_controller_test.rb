@@ -3,11 +3,11 @@ require 'test_helper'
 class MicropostsControllerTest < ActionDispatch::IntegrationTest
 
   def setup
-    if User.find_by(email: "michael@example.com") == nil
-      @user = User.new(name: "Michael Example", email: "michael@example.com", password: 'password', activated: true, activated_at: Time.zone.now)
+    if User.find_by(email: "michael5@example.com") == nil
+      @user = User.new(name: "Michael Example5", email: "michael5@example.com", password: 'password', activated: true, activated_at: Time.zone.now)
       @user.save
     end
-    @michael = User.find_by(email: "michael@example.com")
+    @michael = User.find_by(email: "michael5@example.com")
     @micropost = @michael.microposts.build(content: "Lorem ipsum", created_at: 10.minutes.ago)
     @most_recent = @michael.microposts.build(content: "Writing a short test", created_at: Time.zone.now)
     @cat_video = @michael.microposts.build(content: "Sad cats are sad: http://youtu.be/PKffm2uI4dk", created_at: 2.hours.ago)
